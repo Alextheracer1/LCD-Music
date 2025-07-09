@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project converts the media information available on a Linux-based machine using playerctl and sends it over Serial to an Arduino. On the Arduino there is a 16x2 LCD connected.
+This project converts the media information available on a Linux-based machine using playerctl and sends it over Serial to an Arduino. There is a 16x2 LCD connected to the Arduino via I²C.
 
 ![Image of LCD](./images/img1.jpg "Image of LCD showing a title and artist")
 

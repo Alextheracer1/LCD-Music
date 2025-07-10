@@ -82,6 +82,7 @@ public class CurrentlyPlaying {
                         stringPosition++;
                     }
 
+                    newOutput = newOutput.substring(0, 16);
                 }
 
 

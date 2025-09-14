@@ -11,6 +11,7 @@ public class Main {
     public static void main(String[] args) {
 
         CurrentlyPlaying player = new CurrentlyPlaying();
+        CurrentTime time = new CurrentTime();
 
 
         for (String port : SerialPortList.getPortNames()) {
@@ -33,7 +34,9 @@ public class Main {
                         } else if (player.getPlaying() == 2) {
                             System.out.println("Player currently stopped. Try playing a song.");
                             arduinoPort.writeBytes("Player stopped\n".getBytes());
+                            arduinoPort.writeBytes(time.getCurrentTime().getBytes());
                             Thread.sleep(2000);
+
                         }
                     }
 

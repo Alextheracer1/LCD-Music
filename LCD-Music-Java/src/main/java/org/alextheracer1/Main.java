@@ -2,7 +2,8 @@ package org.alextheracer1;
 
 import jssc.*;
 
-import java.util.Objects;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 import static jssc.SerialPort.*;
 
@@ -11,6 +12,7 @@ public class Main {
     public static void main(String[] args) {
 
         CurrentlyPlaying player = new CurrentlyPlaying();
+        CiderGetPlaying ciderPlayer =  new CiderGetPlaying();
 
 
         for (String port : SerialPortList.getPortNames()) {
@@ -23,7 +25,7 @@ public class Main {
                     for (; ; ) {
                         if (player.getPlaying() == 1) {
 
-                            arduinoPort.writeBytes(player.getMetadata().getBytes());
+                            arduinoPort.writeBytes(ciderPlayer.getPlaying().getBytes());
                             Thread.sleep(1000);
 
                         } else if (player.getPlaying() == 0) {
@@ -37,7 +39,7 @@ public class Main {
                         }
                     }
 
-                } catch (SerialPortException e) {
+                } catch (IOException | URISyntaxException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);

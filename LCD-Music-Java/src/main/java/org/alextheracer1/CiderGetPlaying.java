@@ -1,6 +1,8 @@
 package org.alextheracer1;
 
 import com.google.gson.Gson;
+import org.alextheracer1.Music.CiderStatus;
+import org.alextheracer1.Music.Song;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,12 +19,20 @@ public class CiderGetPlaying {
     private String positionLength = "";
     private int stringPosition = -5;
     private int stringPositionBack = 0;
+    private final String nowPlayingURL = "http://localhost:10767/api/v1/playback/now-playing";
+    private final String isPlayingURL = "http://localhost:10767/api/v1/playback/is-playing";
 
-    public String getPlaying() throws IOException, URISyntaxException {
-
-        URI getSong = new URI("http://localhost:10767/api/v1/playback/now-playing");
+    public boolean isCiderPlaying() throws URISyntaxException, IOException {
 
         Gson gson = new Gson();
+
+        CiderStatus status = gson.fromJson((new InputStreamReader(getHttpData(isPlayingURL).getInputStream())), CiderStatus.class);
+
+        return status.isPlaying();
+    }
+
+    private HttpURLConnection getHttpData(String url) throws URISyntaxException, IOException {
+        URI getSong = new URI(url);
 
         HttpURLConnection conn = (HttpURLConnection) getSong.toURL().openConnection();
         conn.setRequestMethod("GET");
@@ -32,7 +42,14 @@ public class CiderGetPlaying {
                     + conn.getResponseCode());
         }
 
-        Song newSong = gson.fromJson((new InputStreamReader(conn.getInputStream())), Song.class);
+        return conn;
+    }
+
+    public String getPlaying() throws IOException, URISyntaxException {
+
+        Gson gson = new Gson();
+
+        Song newSong = gson.fromJson((new InputStreamReader(getHttpData(nowPlayingURL).getInputStream())), Song.class);
 
         return implementScrolling(newSong);
     }
@@ -115,4 +132,5 @@ public class CiderGetPlaying {
         int secs = totalSecs % 60;
         return String.format("%02d:%02d", minutes, secs);
     }
+
 }

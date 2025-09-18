@@ -22,6 +22,20 @@ public class Main {
                     arduinoPort.openPort();
                     arduinoPort.setParams(BAUDRATE_9600, DATABITS_8, STOPBITS_1, PARITY_NONE);
                     Thread.sleep(5000);
+
+                    while (true) {
+
+                        if (ciderPlayer.isCiderPlaying()){
+                            arduinoPort.writeBytes(ciderPlayer.getPlaying().getBytes());
+                            Thread.sleep(1000);
+                        } else {
+                            arduinoPort.writeBytes("Player paused\n".getBytes());
+                            System.out.println("Player currently paused");
+                            Thread.sleep(2000);
+                        }
+                    }
+
+                    /*
                     for (; ; ) {
                         if (player.getPlaying() == 1) {
 
@@ -38,6 +52,8 @@ public class Main {
                             Thread.sleep(2000);
                         }
                     }
+                    */
+
 
                 } catch (IOException | URISyntaxException e) {
                     e.printStackTrace();

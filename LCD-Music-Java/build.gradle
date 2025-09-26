@@ -26,8 +26,17 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     testImplementation 'org.junit.jupiter:junit-jupiter'
    // implementation 'com.github.hypfvieh:dbus-java:3.2.1'
-    implementation 'org.slf4j:slf4j-simple:2.0.9'
+
     implementation 'io.github.java-native:jssc:2.10.2'
+
+    // Log4j API + Core
+    implementation 'org.apache.logging.log4j:log4j-api:2.24.1'
+    implementation 'org.apache.logging.log4j:log4j-core:2.24.1'
+
+    // Bridge SLF4J to Log4j2
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.24.1'
+
+    implementation 'org.slf4j:slf4j-api:2.0.17'
 }
 
 test {

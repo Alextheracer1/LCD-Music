@@ -1,19 +1,23 @@
 package org.alextheracer1;
 
-import jssc.*;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
+
+import jssc.SerialPort;
+import jssc.SerialPortList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static jssc.SerialPort.*;
 
 public class Main {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) {
 
         CurrentlyPlaying player = new CurrentlyPlaying();
         CiderGetPlaying ciderPlayer =  new CiderGetPlaying();
-
 
         for (String port : SerialPortList.getPortNames()) {
             if (port.equals("/dev/ttyUSB0")) {
@@ -30,7 +34,7 @@ public class Main {
                             Thread.sleep(1000);
                         } else {
                             arduinoPort.writeBytes("Player paused\n".getBytes());
-                            System.out.println("Player currently paused");
+                            LOGGER.info("Player paused");
                             Thread.sleep(2000);
                         }
                     }
@@ -56,13 +60,14 @@ public class Main {
 
 
                 } catch (IOException | URISyntaxException e) {
-                    e.printStackTrace();
+                    LOGGER.error("Failed to connect to Cider API");
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
         }
 
+        LOGGER.warn("No Serial Port found");
 
     }
 }
